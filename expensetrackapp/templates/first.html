@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpenseTracker</title>
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <img src="{% static 'assets/img/logo.png' %}" alt="ExpenseTracker Logo">
+    </div>
+    <h1>ExpenseTracker</h1>
+    <div class="buttons">
+        <a href="{% url 'login' %}" class="btn">Login</a>
+        <a href="{% url 'register' %}" class="btn">Register</a>
+    </div>
+</div>
+</body>
+</html>
