@@ -25,14 +25,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-
-### Python ###
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-
-# C extensions
-*.so
+*.py[cod
 
 # Distribution / packaging
 .Python
@@ -79,15 +72,15 @@ docs/_build/
 # PyBuilder
 target/
 
-*/__pycache__/*
+/_pycache_/
 
 ### Django ###
 *.log
 *.pot
 *.pyc
-__pycache__/
+_pycache_/
 local_settings.py
 
 .env
 *db.sqlite3
-expensetrackapp/__pycache__
+expensetrackapp/_pycache_
