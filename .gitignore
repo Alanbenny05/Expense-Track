@@ -25,7 +25,14 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-*.py[cod
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+_pycache_/
+*.py[cod]
+
+# C extensions
+*.so
 
 # Distribution / packaging
 .Python
