@@ -11,6 +11,8 @@ env
 Icon
 
 
+
+
 # Thumbnails
 ._*
 
@@ -90,4 +92,5 @@ local_settings.py
 
 .env
 *db.sqlite3
+###
 expensetrackapp/__pycache__
