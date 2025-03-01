@@ -30,6 +30,26 @@ class Expense(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.amount}"
+    
+
+
+class UserProfile(models.Model):  # Notice the capitalization (UserProfile, not Userprofile)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to="profile_pics/", null=True, blank=True)
+    bio = models.TextField(null=True, blank=True)
+    def __str__(self):
+        return self.user.username
+
+
+
+
+
+
+
+
+
+
+
 
 # #class Alert(TimeStampedModel):
 #     user_id  = models.Foreignkey(User, on_delete=models.CASCADE)
