@@ -89,5 +89,5 @@ _pycache_/
 local_settings.py
 
 .env
-*db.sqlite3
+db.sqlite3
 expensetrackapp/_pycache_
