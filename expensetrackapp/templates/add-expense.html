@@ -27,7 +27,7 @@
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="{% url 'index' %}" class="logo d-flex align-items-center">
         <img src="{% static 'assets/img/logo.png' %}" alt="">
         <span class="d-none d-lg-block">ExpenseTracker</span>
       </a>
@@ -38,13 +38,13 @@
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
+        <a class="nav-link collapsed" href="{% url 'index' %}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="add-expense.html">
+        <a class="nav-link" href="{% url 'add-expense' %}">
           <i class="bi bi-plus-circle"></i>
           <span>Add Expense</span>
         </a>
@@ -57,7 +57,7 @@
       <h1>Add Expense</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
           <li class="breadcrumb-item active">Add Expense</li>
         </ol>
       </nav>
@@ -71,59 +71,49 @@
               <h5 class="card-title">Expense Details</h5>
 
               <!-- Expense Form -->
-              <form method="POST" action="#">
+              <form method="POST" action="{% url 'add-expense' %}">
+                {% csrf_token %}  <!-- Add CSRF Token -->
+
                 <div class="row mb-3">
                   <label for="expenseName" class="col-sm-2 col-form-label">Expense Name</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="expenseName" name="expenseName" required>
+                    <input type="text" class="form-control" id="expenseName" name="expense_name" required>
                   </div>
                 </div>
 
                 <div class="row mb-3">
                   <label for="expenseAmount" class="col-sm-2 col-form-label">Amount</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" id="expenseAmount" name="expenseAmount" step="0.01" required>
+                    <input type="number" class="form-control" id="expenseAmount" name="amount" step="0.01" required>
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="expenseCategory" class="col-sm-2 col-form-label">Category</label>
+                  <label for="categories" class="col-sm-2 col-form-label">Category</label>
                   <div class="col-sm-10">
-                    <select class="form-select" id="expenseCategory" name="expenseCategory" required>
+                    <select class="form-select" id="categories" name="category" required>
                       <option value="">Select Category</option>
-                      <option value="Food">Food</option>
-                      <option value="Transport">Transport</option>
-                      <option value="Utilities">Utilities</option>
-                      <option value="Entertainment">Entertainment</option>
-                      <option value="Other">Other</option>
+                      {% for cat in categories %}
+                      <option value="{{ cat.id }}">{{ cat.name }}</option>
+                      {% endfor %}
                     </select>
                   </div>
                 </div>
+                
 
                 <div class="row mb-3">
                   <label for="expenseDate" class="col-sm-2 col-form-label">Date</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" id="expenseDate" name="expenseDate" required>
+                    <input type="date" class="form-control" id="expenseDate" name="date" required>
                   </div>
                 </div>
 
-                <div class="row mb-3">
-                  <label for="paymentMethod" class="col-sm-2 col-form-label">Payment Method</label>
-                  <div class="col-sm-10">
-                    <select class="form-select" id="paymentMethod" name="paymentMethod" required>
-                      <option value="">Select Payment Method</option>
-                      <option value="Cash">Cash</option>
-                      <option value="Credit Card">Credit Card</option>
-                      <option value="Debit Card">Debit Card</option>
-                      <option value="Online Transfer">Online Transfer</option>
-                    </select>
-                  </div>
-                </div>
+              
 
                 <div class="row mb-3">
                   <label for="expenseDescription" class="col-sm-2 col-form-label">Description</label>
                   <div class="col-sm-10">
-                    <textarea class="form-control" id="expenseDescription" name="expenseDescription" rows="3"></textarea>
+                    <textarea class="form-control" id="expenseDescription" name="description" rows="3"></textarea>
                   </div>
                 </div>
 
