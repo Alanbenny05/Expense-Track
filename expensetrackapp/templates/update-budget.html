@@ -1,0 +1,43 @@
+{% extends 'base.html' %}  <!-- Assuming you have a base template -->
+{% block content %}
+<div class="pagetitle">
+  <h1>Update Budget</h1>
+</div>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Update Budget</h5>
+          <form method="post" action="{% url 'update-budget' budget.id %}">
+            {% csrf_token %}
+            <!-- Form fields for updating budget -->
+            <div class="row mb-3">
+              <label for="category" class="col-sm-2 col-form-label">Category</label>
+              <div class="col-sm-10">
+                <select class="form-select" id="category" name="category" required>
+                  {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category.id == budget.category.id %}selected{% endif %}>{{ category.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="limit_amount" class="col-sm-2 col-form-label">Limit Amount</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="limit_amount" name="limit_amount" value="{{ budget.limit_amount }}" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn btn-primary">Update Budget</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

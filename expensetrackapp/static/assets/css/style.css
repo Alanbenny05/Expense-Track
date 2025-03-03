@@ -959,6 +959,107 @@ h6 {
 }
 
 /*--------------------------------------------------------------
+# Budget Add Form
+--------------------------------------------------------------*/
+
+/* Form Container */
+.budget-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(1, 41, 112, 0.1);
+}
+
+/* Form Title */
+.budget-form-container h5 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #012970;
+  margin-bottom: 20px;
+}
+
+/* Form Labels */
+.budget-form-container .form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #012970;
+  margin-bottom: 8px;
+}
+
+/* Form Inputs */
+.budget-form-container .form-control {
+  font-size: 14px;
+  color: #444444;
+  border: 1px solid #ebeef4;
+  border-radius: 4px;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.budget-form-container .form-control:focus {
+  border-color: #4154f1;
+  box-shadow: 0 0 10px rgba(65, 84, 241, 0.1);
+}
+
+/* Select Dropdown */
+.budget-form-container .form-select {
+  font-size: 14px;
+  color: #444444;
+  border: 1px solid #ebeef4;
+  border-radius: 4px;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.budget-form-container .form-select:focus {
+  border-color: #4154f1;
+  box-shadow: 0 0 10px rgba(65, 84, 241, 0.1);
+}
+
+/* Submit Button */
+.budget-form-container .btn-primary {
+  background-color: #4154f1;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.budget-form-container .btn-primary:hover {
+  background-color: #5969f3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .budget-form-container {
+    padding: 15px;
+  }
+
+  .budget-form-container h5 {
+    font-size: 20px;
+  }
+
+  .budget-form-container .form-label {
+    font-size: 13px;
+  }
+
+  .budget-form-container .form-control,
+  .budget-form-container .form-select {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .budget-form-container .btn-primary {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+/*--------------------------------------------------------------
 # Icons list page
 --------------------------------------------------------------*/
 .iconslist {
