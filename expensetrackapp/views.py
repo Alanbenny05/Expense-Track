@@ -121,16 +121,24 @@ def add_expense(request):
         date = request.POST.get('date')
         payment_method = request.POST.get('payment_method')
         description = request.POST.get('description')
+        print("expense namr:", expense_name)
+        print("amount:", amount)
+        print("category_id:", category_id)
+        print("date:", date)
+
 
         # Validate required fields
         if not expense_name or not amount or not category_id or not date:
             messages.error(request, "Please fill in all required fields.")
+            print("inside if")
             return redirect('add-expense')
 
         try:
             category = Category.objects.get(id=category_id)  # Get the category object
         except Category.DoesNotExist:
             messages.error(request, "Invalid category selected.")
+            print("inside invalid category")
+
             return redirect('add-expense')
 
         # Save the expense to the database
@@ -141,16 +149,17 @@ def add_expense(request):
                 amount=amount,
                 category=category,
                 date=date,
-                payment_method=payment_method,
-                description=description
+                description=description,
             )
             expense.save()
+            print(expense)
             messages.success(request, "Expense added successfully!")
             return redirect('index')  # Redirect to the index page after adding the expense
         except Exception as e:
             messages.error(request, f"An error occurred: {str(e)}")
+            print(e)
             return redirect('add-expense')
 
     # If GET request, render the add-expense form
-    categories = Category.objects.filter(user=request.user)  # Fetch categories for the logged-in user
+    categories = Category.objects.all  # Fetch categories for the logged-in user
     return render(request, 'add-expense.html', {'categories': categories})

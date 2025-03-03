@@ -19,7 +19,7 @@ class Category(TimeStampedModel):
     """
     Represents a category for expenses.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     name = models.CharField(max_length=20)
     description = models.TextField(max_length=200)  # Increased max_length for description
 
@@ -44,6 +44,7 @@ class Expense(models.Model):
     Represents an expense made by a user.
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    expense_name = models.CharField(max_length=20, null=True, blank=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)  # Added category field
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
