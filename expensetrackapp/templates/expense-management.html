@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Management</title>
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <img src="{% static 'assets/img/logo.png' %}" alt="Expense Tracker Logo">
+      <h1>Expense Tracker</h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="pagetitle">
+    <h1>Expense Management</h1>
+  </div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Expense List</h5>
+            <!-- Table to display expense data -->
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th>Description</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for expense in expenses %}
+                <tr>
+                  <td>{{ expense.category.name }}</td>
+                  <td>{{ expense.amount }}</td>
+                  <td>{{ expense.description }}</td>
+                  <td>{{ expense.date }}</td>
+                  <td>
+                    <!-- Update Button -->
+                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateExpenseModal{{ expense.id }}">Update</a>
+                    <!-- Delete Button -->
+                    <form action="{% url 'expense-management' %}" method="post" style="display:inline;">
+                      {% csrf_token %}
+                      <input type="hidden" name="expense_id" value="{{ expense.id }}">
+                      <input type="hidden" name="action" value="delete">
+                      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this expense?');">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Update Expense Modals -->
+  {% for expense in expenses %}
+  <div class="modal fade" id="updateExpenseModal{{ expense.id }}" tabindex="-1" aria-labelledby="updateExpenseModalLabel{{ expense.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateExpenseModalLabel{{ expense.id }}">Update Expense</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'expense-management' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="expense_id" value="{{ expense.id }}">
+            <input type="hidden" name="action" value="update">
+            <div class="mb-3">
+              <label for="expense_name{{ expense.id }}" class="form-label">Expense Name</label>
+              <input type="text" class="form-control" id="expense_name{{ expense.id }}" name="expense_name" value="{{ expense.expense_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="amount{{ expense.id }}" class="form-label">Amount</label>
+              <input type="number" class="form-control" id="amount{{ expense.id }}" name="amount" value="{{ expense.amount }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="category{{ expense.id }}" class="form-label">Category</label>
+              <select class="form-select" id="category{{ expense.id }}" name="category" required>
+                {% for category in categories %}
+                  <option value="{{ category.id }}" {% if category.id == expense.category.id %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="date{{ expense.id }}" class="form-label">Date</label>
+              <input type="date" class="form-control" id="date{{ expense.id }}" name="date" value="{{ expense.date|date:'Y-m-d' }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="description{{ expense.id }}" class="form-label">Description</label>
+              <textarea class="form-control" id="description{{ expense.id }}" name="description">{{ expense.description }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Expense</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2023 Expense Tracker. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

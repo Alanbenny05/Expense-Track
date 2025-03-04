@@ -226,7 +226,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'user_profile' %}">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -317,52 +317,19 @@
         </a>
       </li><!-- End Add Budget Nav -->
 
-      <!-- Update and Delete Expense -->
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#expense-actions-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-pencil-square"></i>
-        <span>Expense Actions</span>
-        <i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="expense-actions-nav" class="nav-content collapse">
-        <li>
-          <a href="{% url 'update-expense' expense_id=1 %}">  <!-- Replace 1 with dynamic ID if needed -->
-            <i class="bi bi-pencil"></i>
-            <span>Update Expense</span>
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'delete-expense' expense_id=1 %}">  <!-- Replace 1 with dynamic ID if needed -->
-            <i class="bi bi-trash"></i>
-            <span>Delete Expense</span>
-          </a>
-        </li>
-      </ul>
-    </li><!-- End Expense Actions Nav -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'expense-management' %}">
+          <i class="bi bi-plus-circle"></i>
+          <span>Expense Management</span>
+        </a>
+      </li><!-- End Expense Management Nav -->
 
-    <!-- Update and Delete Budget -->
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#budget-actions-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-pencil-square"></i>
-        <span>Budget Actions</span>
-        <i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="budget-actions-nav" class="nav-content collapse">
-        <li>
-          <a href="{% url 'update-budget' budget_id=1 %}">  <!-- Replace 1 with dynamic ID if needed -->
-            <i class="bi bi-pencil"></i>
-            <span>Update Budget</span>
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'delete-budget' budget_id=1 %}">  <!-- Replace 1 with dynamic ID if needed -->
-            <i class="bi bi-trash"></i>
-            <span>Delete Budget</span>
-          </a>
-        </li>
-      </ul>
-    </li><!-- End Budget Actions Nav -->
-
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'budget-management' %}">
+          <i class="bi bi-plus-circle"></i>
+          <span>Budget Management</span>
+        </a>
+      </li><!-- End  Budget Management Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="{% static '#'%}">
@@ -402,38 +369,7 @@
       </li><!-- End Charts Nav -->
 
 
-      <li class="nav-heading">Pages</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
-
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
-          <i class="bi bi-envelope"></i>
-          <span>Contact</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{%url 'register' %}">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li><!-- End Register Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'loginuser' %}">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </a>
-      </li><!-- End Login Page Nav -->
-
-
+      
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">

@@ -1059,6 +1059,229 @@ h6 {
     font-size: 13px;
   }
 }
+
+
+/*--------------------------------------------------------------
+# Expense Management
+--------------------------------------------------------------*/
+
+/* Expense Table */
+.expense-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.expense-table th,
+.expense-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ebeef4;
+}
+
+.expense-table th {
+  background-color: #f6f9ff;
+  font-weight: 600;
+  color: #012970;
+}
+
+.expense-table tbody tr:hover {
+  background-color: #f6f9ff;
+}
+
+/* Expense Actions */
+.expense-actions .btn {
+  margin-right: 5px;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.expense-actions .btn-primary {
+  background-color: #4154f1;
+  border: none;
+}
+
+.expense-actions .btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.expense-actions .btn-primary:hover {
+  background-color: #5969f3;
+}
+
+.expense-actions .btn-danger:hover {
+  background-color: #bb2d3b;
+}
+
+/* Expense Form */
+.expense-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(1, 41, 112, 0.1);
+}
+
+.expense-form-container h5 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #012970;
+  margin-bottom: 20px;
+}
+
+.expense-form-container .form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #012970;
+  margin-bottom: 8px;
+}
+
+.expense-form-container .form-control,
+.expense-form-container .form-select {
+  font-size: 14px;
+  color: #444444;
+  border: 1px solid #ebeef4;
+  border-radius: 4px;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.expense-form-container .form-control:focus,
+.expense-form-container .form-select:focus {
+  border-color: #4154f1;
+  box-shadow: 0 0 10px rgba(65, 84, 241, 0.1);
+}
+
+.expense-form-container textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.expense-form-container .btn-primary {
+  background-color: #4154f1;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.expense-form-container .btn-primary:hover {
+  background-color: #5969f3;
+}
+
+/*--------------------------------------------------------------
+# Budget Management
+--------------------------------------------------------------*/
+
+/* Budget Table */
+.budget-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.budget-table th,
+.budget-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ebeef4;
+}
+
+.budget-table th {
+  background-color: #f6f9ff;
+  font-weight: 600;
+  color: #012970;
+}
+
+.budget-table tbody tr:hover {
+  background-color: #f6f9ff;
+}
+
+/* Budget Actions */
+.budget-actions .btn {
+  margin-right: 5px;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.budget-actions .btn-primary {
+  background-color: #4154f1;
+  border: none;
+}
+
+.budget-actions .btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.budget-actions .btn-primary:hover {
+  background-color: #5969f3;
+}
+
+.budget-actions .btn-danger:hover {
+  background-color: #bb2d3b;
+}
+
+/* Budget Form */
+.budget-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(1, 41, 112, 0.1);
+}
+
+.budget-form-container h5 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #012970;
+  margin-bottom: 20px;
+}
+
+.budget-form-container .form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #012970;
+  margin-bottom: 8px;
+}
+
+.budget-form-container .form-control,
+.budget-form-container .form-select {
+  font-size: 14px;
+  color: #444444;
+  border: 1px solid #ebeef4;
+  border-radius: 4px;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.budget-form-container .form-control:focus,
+.budget-form-container .form-select:focus {
+  border-color: #4154f1;
+  box-shadow: 0 0 10px rgba(65, 84, 241, 0.1);
+}
+
+.budget-form-container .btn-primary {
+  background-color: #4154f1;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.budget-form-container .btn-primary:hover {
+  background-color: #5969f3;
+}
+
 /*--------------------------------------------------------------
 # Icons list page
 --------------------------------------------------------------*/

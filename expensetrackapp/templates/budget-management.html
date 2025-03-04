@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Management</title>
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <img src="{% static 'assets/img/logo.png' %}" alt="Expense Tracker Logo">
+      <h1>Expense Tracker</h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="pagetitle">
+    <h1>Budget Management</h1>
+  </div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Budget List</h5>
+            <!-- Table to display budget data -->
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Limit Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for budget in budgets %}
+                <tr>
+                  <td>{{ budget.category.name }}</td>
+                  <td>{{ budget.limit_amount }}</td>
+                  <td>
+                    <!-- Update Button -->
+                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateBudgetModal{{ budget.id }}">Update</a>
+                    <!-- Delete Button -->
+                    <form action="{% url 'budget-management' %}" method="post" style="display:inline;">
+                      {% csrf_token %}
+                      <input type="hidden" name="budget_id" value="{{ budget.id }}">
+                      <input type="hidden" name="action" value="delete">
+                      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this budget?');">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Update Budget Modals -->
+  {% for budget in budgets %}
+  <div class="modal fade" id="updateBudgetModal{{ budget.id }}" tabindex="-1" aria-labelledby="updateBudgetModalLabel{{ budget.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateBudgetModalLabel{{ budget.id }}">Update Budget</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'budget-management' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="budget_id" value="{{ budget.id }}">
+            <input type="hidden" name="action" value="update">
+            <div class="mb-3">
+              <label for="category{{ budget.id }}" class="form-label">Category</label>
+              <select class="form-select" id="category{{ budget.id }}" name="category" required>
+                {% for category in categories %}
+                  <option value="{{ category.id }}" {% if category.id == budget.category.id %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="limit_amount{{ budget.id }}" class="form-label">Limit Amount</label>
+              <input type="number" class="form-control" id="limit_amount{{ budget.id }}" name="limit_amount" value="{{ budget.limit_amount }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Budget</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2023 Expense Tracker. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

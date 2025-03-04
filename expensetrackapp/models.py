@@ -19,7 +19,6 @@ class Category(TimeStampedModel):
     """
     Represents a category for expenses.
     """
-    
     name = models.CharField(max_length=20)
     description = models.TextField(max_length=200)  # Increased max_length for description
 
@@ -60,21 +59,6 @@ class UserProfile(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to="profile_pics/", null=True, blank=True)
-    bio = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username
-
-
-# class Alert(TimeStampedModel):
-#     """
-#     Represents an alert for a user related to a budget.
-#     """
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Fixed typo: Foreignkey -> ForeignKey
-#     alert_type = models.CharField(max_length=20)
-#     related_budget = models.ForeignKey(Budget, on_delete=models.CASCADE)  # Fixed typo: CASECADE -> CASCADE
-#     message = models.CharField(max_length=255)  # Added max_length for CharField
-#     is_read = models.BooleanField(default=False)  # Added default value
-
-#     def __str__(self):
-#         return f"{self.user.username} - {self.alert_type} - {self.message}"

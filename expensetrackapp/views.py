@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import UserProfile, Expense, Category, Budget  # Import Budget model
+from .models import UserProfile, Expense, Category, Budget
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -96,17 +96,63 @@ def user_profile(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
 
     if request.method == "POST":
-        form = UserProfile(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Profile updated successfully!")
+        # Update profile picture
+        if 'profile_picture' in request.FILES:
+            profile.profile_picture = request.FILES['profile_picture']
+            profile.save()
+            messages.success(request, "Profile picture updated successfully!")
+            return redirect('user_profile')
+
+        # Update user details
+        username = request.POST.get('username')
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+
+        if username:
+            request.user.username = username
+        if full_name:
+            request.user.first_name, request.user.last_name = full_name.split(' ', 1)
+        if email:
+            request.user.email = email
+
+        request.user.save()
+        messages.success(request, "Profile updated successfully!")
+        return redirect('user_profile')
+
+    return render(request, 'users-profile.html', {'user': request.user})
+
+@login_required
+def update_profile(request):
+    """
+    Handle updating user profile.
+    """
+    return redirect('user_profile')
+
+@login_required
+def change_password(request):
+    """
+    Handle changing user password.
+    """
+    if request.method == "POST":
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        renew_password = request.POST.get('renew_password')
+
+        if new_password != renew_password:
+            messages.error(request, "New passwords do not match.")
+            return redirect('user_profile')
+
+        user = request.user
+        if user.check_password(current_password):
+            user.set_password(new_password)
+            user.save()
+            messages.success(request, "Password changed successfully!")
             return redirect('user_profile')
         else:
-            messages.error(request, "Invalid form data. Please check your inputs.")
-    else:
-        form = UserProfile(instance=profile)
+            messages.error(request, "Current password is incorrect.")
+            return redirect('user_profile')
 
-    return render(request, 'expensetrackapp/users-profile.html', {'forms': form})
+    return redirect('user_profile')
 
 @login_required
 def add_expense(request):
@@ -119,24 +165,17 @@ def add_expense(request):
         amount = request.POST.get('amount')
         category_id = request.POST.get('category')  # Get category ID from the form
         date = request.POST.get('date')
-        payment_method = request.POST.get('payment_method')
         description = request.POST.get('description')
-        print("expense name:", expense_name)
-        print("amount:", amount)
-        print("category_id:", category_id)
-        print("date:", date)
 
         # Validate required fields
         if not expense_name or not amount or not category_id or not date:
             messages.error(request, "Please fill in all required fields.")
-            print("inside if")
             return redirect('add-expense')
 
         try:
             category = Category.objects.get(id=category_id)  # Get the category object
         except Category.DoesNotExist:
             messages.error(request, "Invalid category selected.")
-            print("inside invalid category")
             return redirect('add-expense')
 
         # Save the expense to the database
@@ -150,12 +189,10 @@ def add_expense(request):
                 description=description,
             )
             expense.save()
-            print(expense)
             messages.success(request, "Expense added successfully!")
-            return redirect('index')  # Redirect to the index page after adding the expense
+            return redirect('expense-management')  # Redirect to expense management page
         except Exception as e:
             messages.error(request, f"An error occurred: {str(e)}")
-            print(e)
             return redirect('add-expense')
 
     # If GET request, render the add-expense form
@@ -192,7 +229,7 @@ def add_budget(request):
             )
             budget.save()
             messages.success(request, "Budget added successfully!")
-            return redirect('index')  # Redirect to the index page after adding the budget
+            return redirect('budget-management')  # Redirect to budget management page
         except Exception as e:
             messages.error(request, f"An error occurred: {str(e)}")
             return redirect('add-budget')
@@ -202,60 +239,64 @@ def add_budget(request):
     return render(request, 'add-budget.html', {'categories': categories})
 
 @login_required
-def update_expense(request, expense_id):
+def expense_management(request):
     """
-    Handle updating an existing expense.
+    Handle expense management (view, update, delete).
     """
-    expense = get_object_or_404(Expense, id=expense_id, user=request.user)  # Ensure the expense belongs to the user
+    expenses = Expense.objects.filter(user=request.user)  # Fetch expenses for the logged-in user
+    categories = Category.objects.all()  # Fetch categories for dropdown
+
     if request.method == 'POST':
-        # Update the expense with the new data
-        expense.expense_name = request.POST.get('expense_name')
-        expense.amount = request.POST.get('amount')
-        expense.category_id = request.POST.get('category')
-        expense.date = request.POST.get('date')
-        expense.description = request.POST.get('description')
-        expense.save()
-        messages.success(request, "Expense updated successfully!")
-        return redirect('index')
-    else:
-        # Render the update form with the current expense data
-        categories = Category.objects.all()
-        return render(request, 'update-expense.html', {'expense': expense, 'categories': categories})
+        # Handle update or delete action
+        action = request.POST.get('action')
+        expense_id = request.POST.get('expense_id')
+
+        if action == 'update':
+            # Update expense
+            expense = get_object_or_404(Expense, id=expense_id, user=request.user)
+            expense.expense_name = request.POST.get('expense_name')
+            expense.amount = request.POST.get('amount')
+            expense.category_id = request.POST.get('category')
+            expense.date = request.POST.get('date')
+            expense.description = request.POST.get('description')
+            expense.save()
+            messages.success(request, "Expense updated successfully!")
+        elif action == 'delete':
+            # Delete expense
+            expense = get_object_or_404(Expense, id=expense_id, user=request.user)
+            expense.delete()
+            messages.success(request, "Expense deleted successfully!")
+
+        return redirect('expense-management')
+
+    return render(request, 'expense-management.html', {'expenses': expenses, 'categories': categories})
 
 @login_required
-def delete_expense(request, expense_id):
+def budget_management(request):
     """
-    Handle deleting an existing expense.
+    Handle budget management (view, update, delete).
     """
-    expense = get_object_or_404(Expense, id=expense_id, user=request.user)  # Ensure the expense belongs to the user
-    expense.delete()
-    messages.success(request, "Expense deleted successfully!")
-    return redirect('index')
+    budgets = Budget.objects.filter(user=request.user)  # Fetch budgets for the logged-in user
+    categories = Category.objects.all()  # Fetch categories for dropdown
 
-@login_required
-def update_budget(request, budget_id):
-    """
-    Handle updating an existing budget.
-    """
-    budget = get_object_or_404(Budget, id=budget_id, user=request.user)  # Ensure the budget belongs to the user
     if request.method == 'POST':
-        # Update the budget with the new data
-        budget.category_id = request.POST.get('category')
-        budget.limit_amount = request.POST.get('limit_amount')
-        budget.save()
-        messages.success(request, "Budget updated successfully!")
-        return redirect('index')
-    else:
-        # Render the update form with the current budget data
-        categories = Category.objects.all()
-        return render(request, 'update-budget.html', {'budget': budget, 'categories': categories})
+        # Handle update or delete action
+        action = request.POST.get('action')
+        budget_id = request.POST.get('budget_id')
 
-@login_required
-def delete_budget(request, budget_id):
-    """
-    Handle deleting an existing budget.
-    """
-    budget = get_object_or_404(Budget, id=budget_id, user=request.user)  # Ensure the budget belongs to the user
-    budget.delete()
-    messages.success(request, "Budget deleted successfully!")
-    return redirect('index')
+        if action == 'update':
+            # Update budget
+            budget = get_object_or_404(Budget, id=budget_id, user=request.user)
+            budget.category_id = request.POST.get('category')
+            budget.limit_amount = request.POST.get('limit_amount')
+            budget.save()
+            messages.success(request, "Budget updated successfully!")
+        elif action == 'delete':
+            # Delete budget
+            budget = get_object_or_404(Budget, id=budget_id, user=request.user)
+            budget.delete()
+            messages.success(request, "Budget deleted successfully!")
+
+        return redirect('budget-management')
+
+    return render(request, 'budget-management.html', {'budgets': budgets, 'categories': categories})

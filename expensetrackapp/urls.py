@@ -1,14 +1,17 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
     path('', views.login_user, name='loginuser'),  # Custom login URL
     path('register/', views.signup, name='register'),
     path('index/', views.index, name='index'),
-    path('add-expense/', views.add_expense, name='add-expense'),
-    path('add-budget/', views.add_budget, name='add-budget'),
-    path('update-expense/<int:expense_id>/', views.update_expense, name='update-expense'),  # Update Expense
-    path('delete-expense/<int:expense_id>/', views.delete_expense, name='delete-expense'),  # Delete Expense
-    path('update-budget/<int:budget_id>/', views.update_budget, name='update-budget'),  # Update Budget
-    path('delete-budget/<int:budget_id>/', views.delete_budget, name='delete-budget'),  # Delete Budget
+    path('add-expense/', views.add_expense, name='add-expense'),  # Add Expense
+    path('add-budget/', views.add_budget, name='add-budget'),  # Add Budget
+    path('budget-management/', views.budget_management, name='budget-management'),  # Budget Management
+    path('expense-management/', views.expense_management, name='expense-management'),  # Expense Management
+    path('user_profile/', views.user_profile, name='user_profile'),  # User Profile
+    path('update-profile/', views.update_profile, name='update_profile'),  # Update Profile
+    path('change-password/', views.change_password, name='change_password'),  # Change Password
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # Logout URL
 ]
