@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import UserProfile, Expense, Category  # Import Expense and Category models
+from .models import UserProfile, Expense, Category, Budget  # Import Budget model
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -121,11 +121,10 @@ def add_expense(request):
         date = request.POST.get('date')
         payment_method = request.POST.get('payment_method')
         description = request.POST.get('description')
-        print("expense namr:", expense_name)
+        print("expense name:", expense_name)
         print("amount:", amount)
         print("category_id:", category_id)
         print("date:", date)
-
 
         # Validate required fields
         if not expense_name or not amount or not category_id or not date:
@@ -138,7 +137,6 @@ def add_expense(request):
         except Category.DoesNotExist:
             messages.error(request, "Invalid category selected.")
             print("inside invalid category")
-
             return redirect('add-expense')
 
         # Save the expense to the database
@@ -161,5 +159,103 @@ def add_expense(request):
             return redirect('add-expense')
 
     # If GET request, render the add-expense form
-    categories = Category.objects.all  # Fetch categories for the logged-in user
+    categories = Category.objects.all()  # Fetch categories for the logged-in user
     return render(request, 'add-expense.html', {'categories': categories})
+
+@login_required
+def add_budget(request):
+    """
+    Handle adding a new budget.
+    """
+    if request.method == 'POST':
+        # Handle form submission for adding a budget
+        category_id = request.POST.get('category')  # Get category ID from the form
+        limit_amount = request.POST.get('limit_amount')
+
+        # Validate required fields
+        if not category_id or not limit_amount:
+            messages.error(request, "Please fill in all required fields.")
+            return redirect('add-budget')
+
+        try:
+            category = Category.objects.get(id=category_id)  # Get the category object
+        except Category.DoesNotExist:
+            messages.error(request, "Invalid category selected.")
+            return redirect('add-budget')
+
+        # Save the budget to the database
+        try:
+            budget = Budget(
+                user=request.user,
+                category=category,
+                limit_amount=limit_amount,
+            )
+            budget.save()
+            messages.success(request, "Budget added successfully!")
+            return redirect('index')  # Redirect to the index page after adding the budget
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+            return redirect('add-budget')
+
+    # If GET request, render the add-budget form
+    categories = Category.objects.all()  # Fetch categories for the logged-in user
+    return render(request, 'add-budget.html', {'categories': categories})
+
+@login_required
+def update_expense(request, expense_id):
+    """
+    Handle updating an existing expense.
+    """
+    expense = get_object_or_404(Expense, id=expense_id, user=request.user)  # Ensure the expense belongs to the user
+    if request.method == 'POST':
+        # Update the expense with the new data
+        expense.expense_name = request.POST.get('expense_name')
+        expense.amount = request.POST.get('amount')
+        expense.category_id = request.POST.get('category')
+        expense.date = request.POST.get('date')
+        expense.description = request.POST.get('description')
+        expense.save()
+        messages.success(request, "Expense updated successfully!")
+        return redirect('index')
+    else:
+        # Render the update form with the current expense data
+        categories = Category.objects.all()
+        return render(request, 'update-expense.html', {'expense': expense, 'categories': categories})
+
+@login_required
+def delete_expense(request, expense_id):
+    """
+    Handle deleting an existing expense.
+    """
+    expense = get_object_or_404(Expense, id=expense_id, user=request.user)  # Ensure the expense belongs to the user
+    expense.delete()
+    messages.success(request, "Expense deleted successfully!")
+    return redirect('index')
+
+@login_required
+def update_budget(request, budget_id):
+    """
+    Handle updating an existing budget.
+    """
+    budget = get_object_or_404(Budget, id=budget_id, user=request.user)  # Ensure the budget belongs to the user
+    if request.method == 'POST':
+        # Update the budget with the new data
+        budget.category_id = request.POST.get('category')
+        budget.limit_amount = request.POST.get('limit_amount')
+        budget.save()
+        messages.success(request, "Budget updated successfully!")
+        return redirect('index')
+    else:
+        # Render the update form with the current budget data
+        categories = Category.objects.all()
+        return render(request, 'update-budget.html', {'budget': budget, 'categories': categories})
+
+@login_required
+def delete_budget(request, budget_id):
+    """
+    Handle deleting an existing budget.
+    """
+    budget = get_object_or_404(Budget, id=budget_id, user=request.user)  # Ensure the budget belongs to the user
+    budget.delete()
+    messages.success(request, "Budget deleted successfully!")
+    return redirect('index')

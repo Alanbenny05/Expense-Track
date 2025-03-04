@@ -309,6 +309,61 @@
         </a>
       </li><!-- End Add Expense Nav -->
 
+      <!-- Add Budget Option -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'add-budget' %}">
+          <i class="bi bi-wallet"></i>
+          <span>Add Budget</span>
+        </a>
+      </li><!-- End Add Budget Nav -->
+
+      <!-- Update and Delete Expense -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#expense-actions-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-pencil-square"></i>
+        <span>Expense Actions</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="expense-actions-nav" class="nav-content collapse">
+        <li>
+          <a href="{% url 'update-expense' expense_id=1 %}">  <!-- Replace 1 with dynamic ID if needed -->
+            <i class="bi bi-pencil"></i>
+            <span>Update Expense</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'delete-expense' expense_id=1 %}">  <!-- Replace 1 with dynamic ID if needed -->
+            <i class="bi bi-trash"></i>
+            <span>Delete Expense</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Expense Actions Nav -->
+
+    <!-- Update and Delete Budget -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#budget-actions-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-pencil-square"></i>
+        <span>Budget Actions</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="budget-actions-nav" class="nav-content collapse">
+        <li>
+          <a href="{% url 'update-budget' budget_id=1 %}">  <!-- Replace 1 with dynamic ID if needed -->
+            <i class="bi bi-pencil"></i>
+            <span>Update Budget</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'delete-budget' budget_id=1 %}">  <!-- Replace 1 with dynamic ID if needed -->
+            <i class="bi bi-trash"></i>
+            <span>Delete Budget</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Budget Actions Nav -->
+
+
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="{% static '#'%}">
           <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
