@@ -12,6 +12,9 @@ urlpatterns = [
     path('index/', views.index, name='index'),  # Home/Dashboard
 
     # Expense Management URLs
+    path('login/', views.login_user, name='loginuser'),  # Custom login URL
+    path('register/', views.signup, name='register'),
+    path('', views.index, name='index'),
     path('add-expense/', views.add_expense, name='add-expense'),  # Add Expense
     path('expense-management/', views.expense_management, name='expense-management'),  # Expense Management
 
