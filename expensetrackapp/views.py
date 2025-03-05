@@ -15,6 +15,10 @@ def index(request):
     """
     return render(request, 'index.html')
 
+def logout (request):
+    logout(request)
+    return redirect ("loginuser")
+
 def signup(request):
     """
     Handle user registration.

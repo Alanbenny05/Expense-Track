@@ -1,3 +1,4 @@
+{% extends 'layout.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,15 +9,9 @@
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="logo">
-      <img src="{% static 'assets/img/logo.png' %}" alt="Expense Tracker Logo">
-      <h1>Expense Tracker</h1>
-    </div>
-  </header>
-
+  {% block contents %}
   <!-- Main Content -->
+  <main id="main" class="main">
   <div class="pagetitle">
     <h1>Expense Management</h1>
   </div>
@@ -111,11 +106,8 @@
     </div>
   </div>
   {% endfor %}
-
-  <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; 2023 Expense Tracker. All rights reserved.</p>
-  </footer>
+</main>
+ {% endblock %}
 
 </body>
 </html>

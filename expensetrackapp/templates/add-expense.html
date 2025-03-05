@@ -1,3 +1,4 @@
+{% extends 'layout.html'%}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -23,35 +24,7 @@
 </head>
 
 <body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="{% url 'index' %}" class="logo d-flex align-items-center">
-        <img src="{% static 'assets/img/logo.png' %}" alt="">
-        <span class="d-none d-lg-block">ExpenseTracker</span>
-      </a>
-    </div>
-  </header><!-- End Header -->
-
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-    <ul class="sidebar-nav" id="sidebar-nav">
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'index' %}">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'add-expense' %}">
-          <i class="bi bi-plus-circle"></i>
-          <span>Add Expense</span>
-        </a>
-      </li>
-    </ul>
-  </aside><!-- End Sidebar -->
-
+{% block contents %}
   <main id="main" class="main">
     <div class="pagetitle">
       <h1>Add Expense</h1>
@@ -131,13 +104,7 @@
     </section>
 
   </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>ExpenseTracker</span></strong>. All Rights Reserved
-    </div>
-  </footer><!-- End Footer -->
+{%endblock%}
 
   <!-- Vendor JS Files -->
   <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

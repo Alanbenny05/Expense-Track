@@ -1062,84 +1062,168 @@ h6 {
 
 
 /*--------------------------------------------------------------
-# Expense Management
+# Expense Budget Management
 --------------------------------------------------------------*/
 
-/* Expense Table */
-.expense-table {
-  width: 100%;
-  border-collapse: collapse;
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+:root {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  background: #f6f9ff;
+  color: #444444;
+  line-height: 1.6;
+}
+
+a {
+  color: #4154f1;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #717ff5;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Nunito", sans-serif;
+  color: #012970;
+}
+
+/*--------------------------------------------------------------
+# Main Content
+--------------------------------------------------------------*/
+#main {
+  margin-top: 60px;
+  padding: 20px 30px;
+  transition: all 0.3s;
+}
+
+@media (max-width: 1199px) {
+  #main {
+    padding: 20px;
+  }
+}
+
+/*--------------------------------------------------------------
+# Page Title
+--------------------------------------------------------------*/
+.pagetitle {
   margin-bottom: 20px;
 }
 
-.expense-table th,
-.expense-table td {
+.pagetitle h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #012970;
+}
+
+/*--------------------------------------------------------------
+# Tables
+--------------------------------------------------------------*/
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(1, 41, 112, 0.1);
+}
+
+.table th,
+.table td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ebeef4;
 }
 
-.expense-table th {
+.table th {
   background-color: #f6f9ff;
   font-weight: 600;
   color: #012970;
 }
 
-.expense-table tbody tr:hover {
+.table tbody tr:hover {
   background-color: #f6f9ff;
 }
 
-/* Expense Actions */
-.expense-actions .btn {
-  margin-right: 5px;
+/*--------------------------------------------------------------
+# Buttons
+--------------------------------------------------------------*/
+.btn {
   font-size: 14px;
-  padding: 5px 10px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
-.expense-actions .btn-primary {
+.btn-primary {
   background-color: #4154f1;
   border: none;
+  color: #fff;
 }
 
-.expense-actions .btn-danger {
-  background-color: #dc3545;
-  border: none;
-}
-
-.expense-actions .btn-primary:hover {
+.btn-primary:hover {
   background-color: #5969f3;
 }
 
-.expense-actions .btn-danger:hover {
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+}
+
+.btn-danger:hover {
   background-color: #bb2d3b;
 }
 
-/* Expense Form */
-.expense-form-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background: #fff;
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+/*--------------------------------------------------------------
+# Cards
+--------------------------------------------------------------*/
+.card {
+  margin-bottom: 30px;
+  border: none;
   border-radius: 8px;
   box-shadow: 0 0 30px rgba(1, 41, 112, 0.1);
+  background: #fff;
 }
 
-.expense-form-container h5 {
-  font-size: 24px;
+.card-header,
+.card-footer {
+  border-color: #ebeef4;
+  background-color: #fff;
+  color: #798eb3;
+  padding: 15px;
+}
+
+.card-title {
+  padding: 20px 0 15px 0;
+  font-size: 20px;
   font-weight: 600;
   color: #012970;
-  margin-bottom: 20px;
 }
 
-.expense-form-container .form-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #012970;
-  margin-bottom: 8px;
+.card-body {
+  padding: 20px;
 }
 
-.expense-form-container .form-control,
-.expense-form-container .form-select {
+/*--------------------------------------------------------------
+# Forms
+--------------------------------------------------------------*/
+.form-control,
+.form-select {
   font-size: 14px;
   color: #444444;
   border: 1px solid #ebeef4;
@@ -1148,138 +1232,99 @@ h6 {
   transition: all 0.3s ease;
 }
 
-.expense-form-container .form-control:focus,
-.expense-form-container .form-select:focus {
+.form-control:focus,
+.form-select:focus {
   border-color: #4154f1;
   box-shadow: 0 0 10px rgba(65, 84, 241, 0.1);
 }
 
-.expense-form-container textarea.form-control {
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #012970;
+  margin-bottom: 8px;
+}
+
+textarea.form-control {
   resize: vertical;
   min-height: 100px;
 }
 
-.expense-form-container .btn-primary {
-  background-color: #4154f1;
-  border: none;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-.expense-form-container .btn-primary:hover {
-  background-color: #5969f3;
-}
-
 /*--------------------------------------------------------------
-# Budget Management
+# Modals
 --------------------------------------------------------------*/
-
-/* Budget Table */
-.budget-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.budget-table th,
-.budget-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ebeef4;
-}
-
-.budget-table th {
-  background-color: #f6f9ff;
-  font-weight: 600;
-  color: #012970;
-}
-
-.budget-table tbody tr:hover {
-  background-color: #f6f9ff;
-}
-
-/* Budget Actions */
-.budget-actions .btn {
-  margin-right: 5px;
-  font-size: 14px;
-  padding: 5px 10px;
-}
-
-.budget-actions .btn-primary {
-  background-color: #4154f1;
-  border: none;
-}
-
-.budget-actions .btn-danger {
-  background-color: #dc3545;
-  border: none;
-}
-
-.budget-actions .btn-primary:hover {
-  background-color: #5969f3;
-}
-
-.budget-actions .btn-danger:hover {
-  background-color: #bb2d3b;
-}
-
-/* Budget Form */
-.budget-form-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background: #fff;
+.modal-content {
   border-radius: 8px;
   box-shadow: 0 0 30px rgba(1, 41, 112, 0.1);
 }
 
-.budget-form-container h5 {
-  font-size: 24px;
+.modal-header {
+  border-bottom: 1px solid #ebeef4;
+  padding: 15px 20px;
+}
+
+.modal-title {
+  font-size: 18px;
   font-weight: 600;
   color: #012970;
-  margin-bottom: 20px;
 }
 
-.budget-form-container .form-label {
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  border-top: 1px solid #ebeef4;
+  padding: 15px 20px;
+}
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+.footer {
+  padding: 20px 0;
   font-size: 14px;
-  font-weight: 600;
+  text-align: center;
   color: #012970;
-  margin-bottom: 8px;
+  border-top: 1px solid #cddfff;
+  margin-top: 40px;
 }
 
-.budget-form-container .form-control,
-.budget-form-container .form-select {
-  font-size: 14px;
-  color: #444444;
-  border: 1px solid #ebeef4;
-  border-radius: 4px;
-  padding: 10px 15px;
-  transition: all 0.3s ease;
+.footer .copyright {
+  margin-bottom: 5px;
 }
 
-.budget-form-container .form-control:focus,
-.budget-form-container .form-select:focus {
-  border-color: #4154f1;
-  box-shadow: 0 0 10px rgba(65, 84, 241, 0.1);
+.footer .credits {
+  font-size: 13px;
 }
 
-.budget-form-container .btn-primary {
-  background-color: #4154f1;
-  border: none;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
+/*--------------------------------------------------------------
+# Responsive Design
+--------------------------------------------------------------*/
+@media (max-width: 768px) {
+  .pagetitle h1 {
+    font-size: 24px;
+  }
 
-.budget-form-container .btn-primary:hover {
-  background-color: #5969f3;
+  .table th,
+  .table td {
+    padding: 10px;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .card-title {
+    font-size: 18px;
+  }
+
+  .form-control,
+  .form-select {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
 }
 
 /*--------------------------------------------------------------
