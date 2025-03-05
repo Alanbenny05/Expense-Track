@@ -9,11 +9,27 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 
 # Create your views here.
+@login_required
 def index(request):
     """
     Render the index/home page.
     """
-    return render(request, 'index.html')
+    budget = Budget.objects.filter(user=request.user) 
+    expense_list = list(Expense.objects.filter(user=request.user).values_list("amount"))
+    budget_list = list(Budget.objects.filter(user=request.user).values_list("limit_amount"))
+    expense_plain_list = [float(value[0]) for value in expense_list]  # Convert Decimal to float
+    budget_plain_list = [float(value[0]) for value in budget_list]  # Convert Decimal to float
+
+
+    print(expense_plain_list)
+    print(budget_plain_list)
+
+    expense = Expense.objects.filter(user=request.user)
+    # print("budget", budget)
+    # print("expense",expense_list)
+
+
+    return render(request, 'index.html', {"expense_plain_list": expense_plain_list, "budget_plain_list": budget_plain_list})
 
 def logout (request):
     logout(request)

@@ -3,9 +3,9 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('', views.login_user, name='loginuser'),  # Custom login URL
+    path('login/', views.login_user, name='loginuser'),  # Custom login URL
     path('register/', views.signup, name='register'),
-    path('index/', views.index, name='index'),
+    path('', views.index, name='index'),
     path('add-expense/', views.add_expense, name='add-expense'),  # Add Expense
     path('add-budget/', views.add_budget, name='add-budget'),  # Add Budget
     path('budget-management/', views.budget_management, name='budget-management'),  # Budget Management
