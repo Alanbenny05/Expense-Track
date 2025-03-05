@@ -1,5 +1,6 @@
-{%extends 'layout.html'%}
+{% extends 'layout.html' %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +36,7 @@
 
 <body>
 
-{% block contents%}
+{% block contents %}
 
   <main id="main" class="main">
     <div class="pagetitle">
@@ -96,6 +97,15 @@
 
                 <!-- Edit Profile Tab -->
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                  <!-- Display messages for profile update -->
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+
                   <form method="POST" action="{% url 'update_profile' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row mb-3">
@@ -137,26 +147,35 @@
 
                 <!-- Change Password Tab -->
                 <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <!-- Display messages for password change -->
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+
                   <form method="POST" action="{% url 'change_password' %}">
                     {% csrf_token %}
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="current_password" type="password" class="form-control" id="currentPassword">
+                        <input name="current_password" type="password" class="form-control" id="currentPassword" required>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="new_password" type="password" class="form-control" id="newPassword">
+                        <input name="new_password" type="password" class="form-control" id="newPassword" required>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="renew_password" type="password" class="form-control" id="renewPassword">
+                        <input name="renew_password" type="password" class="form-control" id="renewPassword" required>
                       </div>
                     </div>
 

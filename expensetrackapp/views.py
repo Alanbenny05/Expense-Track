@@ -8,6 +8,11 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 
+# Helper function to fetch categories for the logged-in user
+def get_user_categories(user):
+    """Fetch categories for the logged-in user."""
+    return Category.objects.filter(user=user)
+
 # Create your views here.
 def index(request):
     """
@@ -15,9 +20,13 @@ def index(request):
     """
     return render(request, 'index.html')
 
-def logout (request):
-    logout(request)
-    return redirect ("loginuser")
+def logout(request):
+    """
+    Handle user logout.
+    """
+    auth_logout(request)  # Use Django's logout function
+    messages.success(request, "You have been logged out successfully.")
+    return redirect('loginuser')
 
 def signup(request):
     """
@@ -130,6 +139,32 @@ def update_profile(request):
     """
     Handle updating user profile.
     """
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        # Update profile picture
+        if 'profile_picture' in request.FILES:
+            profile.profile_picture = request.FILES['profile_picture']
+            profile.save()
+            messages.success(request, "Profile picture updated successfully!")
+            return redirect('user_profile')
+
+        # Update user details
+        username = request.POST.get('username')
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+
+        if username:
+            request.user.username = username
+        if full_name:
+            request.user.first_name, request.user.last_name = full_name.split(' ', 1)
+        if email:
+            request.user.email = email
+
+        request.user.save()
+        messages.success(request, "Profile updated successfully!")
+        return redirect('user_profile')
+
     return redirect('user_profile')
 
 @login_required
@@ -150,6 +185,7 @@ def change_password(request):
         if user.check_password(current_password):
             user.set_password(new_password)
             user.save()
+            auth_login(request, user)  # Re-login the user after password change
             messages.success(request, "Password changed successfully!")
             return redirect('user_profile')
         else:
@@ -200,7 +236,7 @@ def add_expense(request):
             return redirect('add-expense')
 
     # If GET request, render the add-expense form
-    categories = Category.objects.all()  # Fetch categories for the logged-in user
+    categories = get_user_categories(request.user)  # Fetch categories for the logged-in user
     return render(request, 'add-expense.html', {'categories': categories})
 
 @login_required
@@ -239,7 +275,7 @@ def add_budget(request):
             return redirect('add-budget')
 
     # If GET request, render the add-budget form
-    categories = Category.objects.all()  # Fetch categories for the logged-in user
+    categories = get_user_categories(request.user)  # Fetch categories for the logged-in user
     return render(request, 'add-budget.html', {'categories': categories})
 
 @login_required
@@ -248,7 +284,7 @@ def expense_management(request):
     Handle expense management (view, update, delete).
     """
     expenses = Expense.objects.filter(user=request.user)  # Fetch expenses for the logged-in user
-    categories = Category.objects.all()  # Fetch categories for dropdown
+    categories = get_user_categories(request.user)  # Fetch categories for dropdown
 
     if request.method == 'POST':
         # Handle update or delete action
@@ -281,7 +317,7 @@ def budget_management(request):
     Handle budget management (view, update, delete).
     """
     budgets = Budget.objects.filter(user=request.user)  # Fetch budgets for the logged-in user
-    categories = Category.objects.all()  # Fetch categories for dropdown
+    categories = get_user_categories(request.user)  # Fetch categories for dropdown
 
     if request.method == 'POST':
         # Handle update or delete action
