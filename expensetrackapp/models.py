@@ -38,7 +38,7 @@ class Budget(TimeStampedModel):
         return f"{self.user.username} - {self.category.name} - {self.limit_amount}"
 
 
-class Expense(models.Model):
+class Expense(TimeStampedModel):
     """
     Represents an expense made by a user.
     """
