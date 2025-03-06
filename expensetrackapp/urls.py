@@ -1,5 +1,7 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -16,3 +18,6 @@ urlpatterns = [
     path('update_profile/', views.update_profile, name='update_profile'),  # Update Profile
     path('change-password/', views.change_password, name='change_password'),  # Change Password
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
