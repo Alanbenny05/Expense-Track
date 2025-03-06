@@ -92,4 +92,4 @@ local_settings.py
 db.sqlite3
 expensetrackapp/_pycache_
 
-profile_pics/
+media/profile_pics/
