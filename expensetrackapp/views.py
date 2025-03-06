@@ -9,9 +9,9 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 
 # Helper function to fetch categories for the logged-in user
-def get_user_categories(user):
+def get_user_categories():
     """Fetch categories for the logged-in user."""
-    return Category.objects.filter(user=user)
+    return Category.objects.all()
 
 # Create your views here.
 @login_required
@@ -252,7 +252,7 @@ def add_expense(request):
             return redirect('add-expense')
 
     # If GET request, render the add-expense form
-    categories = get_user_categories(request.user)  # Fetch categories for the logged-in user
+    categories = get_user_categories()  # Fetch categories for the logged-in user
     return render(request, 'add-expense.html', {'categories': categories})
 
 @login_required
@@ -291,7 +291,7 @@ def add_budget(request):
             return redirect('add-budget')
 
     # If GET request, render the add-budget form
-    categories = get_user_categories(request.user)  # Fetch categories for the logged-in user
+    categories = get_user_categories()  # Fetch categories for the logged-in user
     return render(request, 'add-budget.html', {'categories': categories})
 
 @login_required
@@ -300,7 +300,7 @@ def expense_management(request):
     Handle expense management (view, update, delete).
     """
     expenses = Expense.objects.filter(user=request.user)  # Fetch expenses for the logged-in user
-    categories = get_user_categories(request.user)  # Fetch categories for dropdown
+    categories = get_user_categories()  # Fetch categories for dropdown
 
     if request.method == 'POST':
         # Handle update or delete action
@@ -333,7 +333,7 @@ def budget_management(request):
     Handle budget management (view, update, delete).
     """
     budgets = Budget.objects.filter(user=request.user)  # Fetch budgets for the logged-in user
-    categories = get_user_categories(request.user)  # Fetch categories for dropdown
+    categories = get_user_categories()  # Fetch categories for dropdown
 
     if request.method == 'POST':
         # Handle update or delete action
