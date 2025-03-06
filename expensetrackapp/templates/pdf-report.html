@@ -4,66 +4,117 @@
 <head>
     <title>Monthly Report</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Open Sans", sans-serif;
+            background: #f6f9ff;
+            color: #444444;
             margin: 0;
             padding: 20px;
-            font-size: 14px; /* Base font size */
+            font-size: 14px;
+            line-height: 1.6;
         }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Nunito", sans-serif;
+            color: #012970;
+        }
+
+        a {
+            color: #4154f1;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #717ff5;
+            text-decoration: none;
+        }
+
+        /* Header */
         .header {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .header img {
             width: 100px;
             height: auto;
         }
+
         .header h1 {
             margin: 10px 0;
-            color: #333;
-            font-size: 24px; /* Larger font for the header */
+            color: #012970;
+            font-size: 24px;
+            font-weight: 700;
         }
+
+        /* User Details */
         .user-details {
             margin-bottom: 20px;
         }
+
         .user-details p {
             margin: 5px 0;
-            font-size: 16px; /* Slightly larger font for user details */
+            font-size: 16px;
         }
+
+        /* Section */
         .section {
             margin-bottom: 20px;
         }
+
         .section h2 {
-            color: #555;
-            border-bottom: 2px solid #ddd;
+            color: #012970;
+            border-bottom: 2px solid #ebeef4;
             padding-bottom: 5px;
-            font-size: 20px; /* Larger font for section headings */
+            font-size: 20px;
+            font-weight: 600;
         }
-        .section ul {
-            list-style-type: none;
-            padding: 0;
+
+        /* Tables */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(1, 41, 112, 0.1);
         }
-        .section ul li {
-            background: #f9f9f9;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 14px; /* Font size for list items */
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ebeef4;
         }
+
+        .table th {
+            background-color: #f6f9ff;
+            font-weight: 600;
+            color: #012970;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f6f9ff;
+        }
+
+        /* Summary */
         .summary {
             background: #f1f1f1;
             padding: 15px;
             border-radius: 5px;
         }
+
         .summary p {
             margin: 5px 0;
-            font-size: 16px; /* Larger font for summary */
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="{% static 'assets/img/favicon.png'%}" alt="Expense Tracker Logo">
+        <img src="http://localhost:8000/static/assets/img/logo.png" alt="Expense Tracker Logo"/>
         <h1>{{ app_name }}</h1>
     </div>
 
@@ -79,31 +130,59 @@
 
     <div class="section">
         <h2>Budget Details</h2>
-        <ul>
-            {% for budget in budgets %}
-                <li>{{ budget.category.name }}: ₹{{ budget.limit_amount }}</li>
-            {% empty %}
-                <li>No budget data available.</li>
-            {% endfor %}
-        </ul>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Budget Limit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for budget in budgets %}
+                    <tr>
+                        <td>{{ budget.category.name }}</td>
+                        <td>Rs. {{ budget.limit_amount }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">No budget data available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <div class="section">
         <h2>Expense Details</h2>
-        <ul>
-            {% for expense in expenses %}
-                <li>{{ expense.expense_name }}: ₹{{ expense.amount }} ({{ expense.category.name }})</li>
-            {% empty %}
-                <li>No expense data available.</li>
-            {% endfor %}
-        </ul>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Expense Name</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.expense_name }}</td>
+                        <td>Rs. {{ expense.amount }}</td>
+                        <td>{{ expense.category.name }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">No expense data available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <div class="summary">
         <h2>Summary</h2>
-        <p><strong>Total Budget:</strong> ₹{{ total_budget }}</p>
-        <p><strong>Total Expenses:</strong> ₹{{ total_expenses }}</p>
-        <p><strong>Remaining Budget:</strong> ₹{{ remaining_budget }}</p>
+        <p><strong>Total Budget:</strong> Rs. {{ total_budget }}</p>
+        <p><strong>Total Expenses:</strong> Rs. {{ total_expenses }}</p>
+        <p><strong>Remaining Budget:</strong> Rs. {{ remaining_budget }}</p>
     </div>
 </body>
 </html>

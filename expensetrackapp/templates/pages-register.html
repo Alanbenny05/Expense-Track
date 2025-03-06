@@ -65,12 +65,21 @@
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <!-- Display error messages if any -->
+                  <!-- Display error messages if any
                   {% if error %}
                     <div class="alert alert-danger" role="alert">
                       {{ error }}
                     </div>
-                  {% endif %}
+                  {% endif %} -->
+
+                  {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-danger alert-dismissible fade show {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
 
                   <form class="row g-3 needs-validation" method="POST" action="{% url 'register' %}" novalidate>
                     {% csrf_token %}  <!-- Add CSRF token for security -->

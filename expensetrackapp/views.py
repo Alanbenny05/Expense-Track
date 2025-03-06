@@ -344,6 +344,24 @@ def download_pdf_report(request):
     return response
 
 @login_required
+def budget_view(request):
+    # Get the current month and year
+    now = timezone.now()
+    current_month = now.month
+    
+    # Calculate the total budget for the logged-in user for the current month
+    total_budget = Budget.objects.filter(
+        user=request.user,
+        created__month=current_month,  # Filter by current month
+    ).aggregate(total=Sum('limit_amount'))['total']
+
+    # If no budget exists for the current month, set total_budget to 0
+    total_budget = total_budget if total_budget else 0
+
+    # Pass the total budget to the template
+    return render(request, 'index.html', {'total_budget': total_budget})
+
+@login_required
 def expense_management(request):
     """
     Handle expense management (view, update, delete).

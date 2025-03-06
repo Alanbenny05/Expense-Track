@@ -61,76 +61,41 @@
         <div class="col-lg-8">
           <div class="row">
 
-            <!-- Budget Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
+<!-- Budget Card -->
+<div class="col-xxl-4 col-md-6">
+  <div class="card info-card sales-card">
+      <div class="card-body">
+          <h5 class="card-title">Monthly Budget</h5> <!-- Updated title -->
 
-                <div class="filter">
-                  <a class="icon" href="{% static '#'%}" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="{% static '#'%}">Today</a></li>
-                    <li><a class="dropdown-item" href="{% static '#'%}">This Month</a></li>
-                    <li><a class="dropdown-item" href="{% static '#'%}">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Budget <span>| Today</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
+          <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-wallet"></i> <!-- Budget-related icon -->
               </div>
-            </div><!-- End Budget Card -->
+              <div class="ps-3">
+                  <h6>₹{{ total_budget|floatformat:2 }}</h6> <!-- Display total_budget -->
+              </div>
+          </div>
+      </div>
+  </div>
+</div><!-- End Budget Card -->
 
             <!-- Expense Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
+<div class="col-xxl-4 col-md-6">
+  <div class="card info-card sales-card">
+    <div class="card-body">
+      <h5 class="card-title">Monthly Expense</h5> <!-- Updated title -->
 
-                <div class="filter">
-                  <a class="icon" href="{% static '#'%}" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="{% static '#'%}">Today</a></li>
-                    <li><a class="dropdown-item" href="{% static '#'%}">This Month</a></li>
-                    <li><a class="dropdown-item" href="{% static '#'%}">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Expense <span>| This Month</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>₹3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Expense Card -->
-
+      <div class="d-flex align-items-center">
+        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+          <i class="bi bi-currency-rupee"></i> <!-- Changed icon to rupees -->
+        </div>
+        <div class="ps-3">
+          <h6>₹{{ total_expense|floatformat:2 }}</h6> <!-- Display total expense dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- End Expense Card -->
             <!-- Reports -->
             <div class="col-12">
               <div class="card">
@@ -224,48 +189,35 @@
         <!-- Right side columns -->
         <div class="col-lg-4">
 
-                    <!-- Recent Expenses -->
-                    <div class="card">
-                      <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                          <li class="dropdown-header text-start">
-                            <h6>Filter</h6>
-                          </li>
-                          <li><a class="dropdown-item" href="#">Today</a></li>
-                          <li><a class="dropdown-item" href="#">This Month</a></li>
-                          <li><a class="dropdown-item" href="#">This Year</a></li>
-                        </ul>
-                      </div>
-          
-                      <div class="card-body">
-                        <h5 class="card-title">Recent Expenses <span>| Today</span></h5>
-          
-                        <div class="activity">
-                          {% if recent_expenses %}
-                            {% for expense in recent_expenses %}
-                              <div class="activity-item d-flex">
-                                <div class="activite-label">{{ expense.date|date:"H:i" }}</div>
-                                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                                <div class="activity-content">
-                                  <strong>{{ expense.expense_name }}</strong><br>
-                                  Amount: ₹{{ expense.amount }}<br>
-                                  Category: {{ expense.category.name }}<br>
-                                  Payment Method: {{ expense.payment_method }}
-                                </div>
-                              </div><!-- End activity item-->
-                            {% endfor %}
-                          {% else %}
-                            <div class="activity-item d-flex">
-                              <div class="activity-content">
-                                No recent expenses found.
-                              </div>
-                            </div>
-                          {% endif %}
-                        </div>
-          
-                      </div>
-                    </div><!-- End Recent Expenses -->
+                   <!-- Recent Expenses -->
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Recent Expenses</h5>
+
+    <div class="activity">
+      {% if recent_expenses %}
+        <!-- Display Last 5 Expenses -->
+        <ul class="list-group">
+          {% for expense in recent_expenses|slice:":5" %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                Category: {{ expense.category.name|default:"No Category" }}<br>
+                Amount: ₹{{ expense.amount }}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="activity-item d-flex">
+          <div class="activity-content">
+            No recent expenses found.
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div><!-- End Recent Expenses -->
                     
 <!-- Download PDF Report -->
 <div class="card">
