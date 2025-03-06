@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monthly Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            font-size: 14px; /* Base font size */
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 100px;
+            height: auto;
+        }
+        .header h1 {
+            margin: 10px 0;
+            color: #333;
+            font-size: 24px; /* Larger font for the header */
+        }
+        .user-details {
+            margin-bottom: 20px;
+        }
+        .user-details p {
+            margin: 5px 0;
+            font-size: 16px; /* Slightly larger font for user details */
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            font-size: 20px; /* Larger font for section headings */
+        }
+        .section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .section ul li {
+            background: #f9f9f9;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px; /* Font size for list items */
+        }
+        .summary {
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .summary p {
+            margin: 5px 0;
+            font-size: 16px; /* Larger font for summary */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'assets/img/favicon.png'%}" alt="Expense Tracker Logo">
+        <h1>{{ app_name }}</h1>
+    </div>
+
+    <div class="user-details">
+        <p><strong>User:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Monthly Budget and Expense Report</h2>
+        <p><strong>Period:</strong> {{ start_of_month|date:"F j, Y" }} to {{ end_of_month|date:"F j, Y" }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Budget Details</h2>
+        <ul>
+            {% for budget in budgets %}
+                <li>{{ budget.category.name }}: ₹{{ budget.limit_amount }}</li>
+            {% empty %}
+                <li>No budget data available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Expense Details</h2>
+        <ul>
+            {% for expense in expenses %}
+                <li>{{ expense.expense_name }}: ₹{{ expense.amount }} ({{ expense.category.name }})</li>
+            {% empty %}
+                <li>No expense data available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="summary">
+        <h2>Summary</h2>
+        <p><strong>Total Budget:</strong> ₹{{ total_budget }}</p>
+        <p><strong>Total Expenses:</strong> ₹{{ total_expenses }}</p>
+        <p><strong>Remaining Budget:</strong> ₹{{ remaining_budget }}</p>
+    </div>
+</body>
+</html>

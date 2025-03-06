@@ -2,6 +2,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import download_pdf_report
 from . import views
 
 urlpatterns = [
@@ -17,6 +18,8 @@ urlpatterns = [
     path('user_profile/', views.user_profile, name='user_profile'),  # User Profile
     path('update_profile/', views.update_profile, name='update_profile'),  # Update Profile
     path('change-password/', views.change_password, name='change_password'),  # Change Password
+    path('download-pdf-report/', download_pdf_report, name='download_pdf_report'),
+
 ]
 
 if settings.DEBUG:

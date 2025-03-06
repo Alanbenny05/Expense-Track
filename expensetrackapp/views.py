@@ -7,6 +7,12 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Q
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from io import BytesIO
+from datetime import datetime, timedelta
+from django.templatetags.static import static
 from django.core.exceptions import ValidationError
 
 # Helper function to fetch categories for the logged-in user
@@ -294,6 +300,48 @@ def add_budget(request):
     # If GET request, render the add-budget form
     categories = get_user_categories()  # Fetch categories for the logged-in user
     return render(request, 'add-budget.html', {'categories': categories})
+
+
+@login_required
+def download_pdf_report(request):
+    # Fetch data for the current month
+    today = datetime.now()
+    start_of_month = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    end_of_month = (start_of_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+    logo_url = request.build_absolute_uri(static('assets/img/logo.png'))
+
+    # Use `created_at` for filtering
+    budgets = Budget.objects.filter(created_at__range=[start_of_month, end_of_month], user=request.user)
+    expenses = Expense.objects.filter(created_at__range=[start_of_month, end_of_month], user=request.user)
+
+    # Calculate totals for the summary
+    total_budget = sum(budget.limit_amount for budget in budgets)
+    total_expenses = sum(expense.amount for expense in expenses)
+    remaining_budget = total_budget - total_expenses
+
+    # Render HTML template
+    template = get_template('pdf-report.html')
+    context = {
+        'budgets': budgets,
+        'expenses': expenses,
+        'start_of_month': start_of_month,
+        'end_of_month': end_of_month,
+        'total_budget': total_budget,
+        'total_expenses': total_expenses,
+        'remaining_budget': remaining_budget,
+        'user': request.user,  # Pass the logged-in user
+        'app_name': 'Expense Tracker',  # App name
+        'logo_url': 'https://example.com/logo.png',  # Replace with your logo URL
+    }
+    html = template.render(context)
+
+    # Create PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="monthly_report.pdf"'
+    pdf = pisa.CreatePDF(html, dest=response)
+    if pdf.err:
+        return HttpResponse('Error generating PDF', status=500)
+    return response
 
 @login_required
 def expense_management(request):

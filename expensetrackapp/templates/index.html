@@ -267,24 +267,16 @@
                       </div>
                     </div><!-- End Recent Expenses -->
                     
-          <!-- Budget Report -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="{% static '#'%}" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="{% static '#'%}">Today</a></li>
-                <li><a class="dropdown-item" href="{% static '#'%}">This Month</a></li>
-                <li><a class="dropdown-item" href="{% static '#'%}">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Budget Report <span>| This Month</span></h5>
-
+<!-- Download PDF Report -->
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Download PDF Report <span>| This Month</span></h5>
+    <p>Click the button below to download a PDF report containing budget and expense details for the current month.</p>
+    <a href="{% url 'download_pdf_report' %}" class="btn btn-primary">
+      <i class="bi bi-download"></i> Download Report
+    </a>
+  </div>
+</div><!-- End Download PDF Report -->
 
               <script>
                 document.addEventListener("DOMContentLoaded", () => {
