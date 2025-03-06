@@ -6,6 +6,7 @@ from .models import UserProfile, Expense, Category, Budget
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 
 # Helper function to fetch categories for the logged-in user
@@ -302,6 +303,18 @@ def expense_management(request):
     expenses = Expense.objects.filter(user=request.user)  # Fetch expenses for the logged-in user
     categories = get_user_categories()  # Fetch categories for dropdown
 
+     # Get filter parameters from the request
+    category_filter = request.GET.get('category')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # Apply filters
+    if category_filter:
+        expenses = expenses.filter(category_id=category_filter)
+
+    if start_date and end_date:
+        expenses = expenses.filter(date__range=[start_date, end_date])
+
     if request.method == 'POST':
         # Handle update or delete action
         action = request.POST.get('action')
@@ -334,6 +347,13 @@ def budget_management(request):
     """
     budgets = Budget.objects.filter(user=request.user)  # Fetch budgets for the logged-in user
     categories = get_user_categories()  # Fetch categories for dropdown
+
+     # Get filter parameter from the request
+    category_filter = request.GET.get('category')
+
+    # Apply filter
+    if category_filter:
+        budgets = budgets.filter(category_id=category_filter)
 
     if request.method == 'POST':
         # Handle update or delete action

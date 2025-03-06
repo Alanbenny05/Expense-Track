@@ -62,11 +62,21 @@
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
-        <li class="nav-item d-block d-lg-none">
+        <!-- <li class="nav-item d-block d-lg-none">
           <a class="nav-link nav-icon search-bar-toggle " href="{% static '#'%}">
             <i class="bi bi-search"></i>
           </a>
-        </li><!-- End Search Icon-->
+        </li>End Search Icon -->
+
+        <!-- Display messages for profile update -->
+        {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-dismissible fade show {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
 
         <li class="nav-item dropdown">
 
