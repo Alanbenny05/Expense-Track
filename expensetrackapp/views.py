@@ -16,6 +16,30 @@ from datetime import datetime, timedelta
 from django.templatetags.static import static
 from django.core.exceptions import ValidationError
 
+
+def calculate_expense(request):
+    """
+    Calculate and display the total expense for the current month.
+    """
+    # Get the current month and year
+    now = timezone.now()
+    current_month = now.month
+    current_year = now.year
+
+    # Calculate the total expense for the logged-in user for the current month
+    total_expense = Expense.objects.filter(
+        user=request.user,
+        date__month=current_month,  # Filter by current month
+        date__year=current_year,    # Filter by current year
+    ).aggregate(total=Sum('amount'))['total']
+
+    # If no expense exists for the current month, set total_expense to 0
+    total_expense = total_expense if total_expense else 0
+    return total_expense
+
+    # Pass the total expense to the template
+
+
 # Helper function to fetch categories for the logged-in user
 def get_user_categories():
     """Fetch categories for the logged-in user."""
@@ -33,9 +57,17 @@ def index(request):
     expense_plain_list = [float(value[0]) for value in expense_list]  # Convert Decimal to float
     budget_plain_list = [float(value[0]) for value in budget_list]  # Convert Decimal to float
     recent_expenses = Expense.objects.all().order_by('-date')[:5]
+    monthly_expense = calculate_expense(request)
+    print(monthly_expense)
+    expense_date_list = list(Expense.objects.filter(user=request.user).values_list("date"))
+    budget_date_list = list(Budget.objects.filter(user=request.user).values_list("created_at"))
 
-    print(expense_plain_list)
-    print(budget_plain_list)
+    print(expense_date_list)
+    expense_date_plain_list = [str(d[0]) for d in expense_date_list]
+
+    print(expense_date_plain_list)
+
+
 
     expense = Expense.objects.filter(user=request.user)
     # print("budget", budget)
@@ -43,7 +75,13 @@ def index(request):
 
 
 
-    return render(request, 'index.html', {"expense_plain_list": expense_plain_list, "budget_plain_list": budget_plain_list, "recent_expenses": recent_expenses})
+    return render(request, 'index.html', {
+        "expense_plain_list": expense_plain_list,
+        "budget_plain_list": budget_plain_list,
+         "recent_expenses": recent_expenses,
+         "monthly_expense": monthly_expense,
+         "expense_date_plain_list": expense_date_plain_list
+         })
 
 def logout(request):
     """
@@ -368,28 +406,6 @@ def budget_view(request):
     # Pass the total budget to the template
     return render(request, 'index.html', {'total_budget': total_budget})
 
-@login_required
-def expense_view(request):
-    """
-    Calculate and display the total expense for the current month.
-    """
-    # Get the current month and year
-    now = timezone.now()
-    current_month = now.month
-    current_year = now.year
-
-    # Calculate the total expense for the logged-in user for the current month
-    total_expense = Expense.objects.filter(
-        user=request.user,
-        date__month=current_month,  # Filter by current month
-        date__year=current_year,    # Filter by current year
-    ).aggregate(total=Sum('amount'))['total']
-
-    # If no expense exists for the current month, set total_expense to 0
-    total_expense = total_expense if total_expense else 0
-
-    # Pass the total expense to the template
-    return render(request, 'index.html', {'total_expense': total_expense})
 
 @login_required
 def expense_management(request):

@@ -90,7 +90,7 @@
           <i class="bi bi-currency-rupee"></i> <!-- Changed icon to rupees -->
         </div>
         <div class="ps-3">
-          <h6>₹{{ total_expense|floatformat:2 }}</h6> <!-- Display total_expense -->
+          <h6>₹{{ monthly_expense|floatformat:2 }}</h6> <!-- Display total_expense -->
         </div>
       </div>
     </div>
@@ -123,6 +123,7 @@
                   <script>
                     let expenses = {{ expense_plain_list|safe }};
                     let budget = {{ budget_plain_list|safe }};
+                    let expense_date_plain_list = {{ expense_date_plain_list | safe}}
                     console.log(expenses)
                     console.log(budget)
 
@@ -166,12 +167,14 @@
                           width: 2
                         },
                         xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                          type: 'date',
+                          //categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                          categories: expense_date_plain_list
                         },
                         tooltip: {
                           x: {
-                            format: 'dd/MM/yy HH:mm'
+                           // format: 'dd/MM/yy HH:mm'
+                           format: 'dd/MM/yy'
                           },
                         }
                       }).render();
