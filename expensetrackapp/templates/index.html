@@ -72,7 +72,7 @@
           <i class="bi bi-wallet"></i> <!-- Budget-related icon -->
         </div>
         <div class="ps-3">
-          <h6>₹{{ total_budget|floatformat:2 }}</h6> <!-- Display total_budget -->
+          <h6>₹{{ monthly_budget|floatformat:2 }}</h6> <!-- Display total_budget -->
         </div>
       </div>
     </div>
@@ -101,7 +101,7 @@
             <div class="col-12">
               <div class="card">
 
-                <div class="filter">
+                <!-- <div class="filter">
                   <a class="icon" href="{% static '#'%}" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -112,10 +112,10 @@
                     <li><a class="dropdown-item" href="{% static '#'%}">This Month</a></li>
                     <li><a class="dropdown-item" href="{% static '#'%}">This Year</a></li>
                   </ul>
-                </div>
+                </div> -->
 
                 <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                  <h5 class="card-title">Reports 
 
                   <!-- Line Chart -->
                   <div id="reportsChart"></div>
@@ -206,7 +206,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <div>
                 Category: {{ expense.category.name|default:"No Category" }}<br>
-                Amount: ₹{{ expense.amount }}   {{ expense.created_at }}
+                Amount: ₹{{ expense.amount }}   <br>{{ expense.created_at }}
               </div>
             </li>
           {% endfor %}
