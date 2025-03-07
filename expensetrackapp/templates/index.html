@@ -64,22 +64,22 @@
 <!-- Budget Card -->
 <div class="col-xxl-4 col-md-6">
   <div class="card info-card sales-card">
-      <div class="card-body">
-          <h5 class="card-title">Monthly Budget</h5> <!-- Updated title -->
+    <div class="card-body">
+      <h5 class="card-title">Monthly Budget</h5> <!-- Updated title -->
 
-          <div class="d-flex align-items-center">
-              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-wallet"></i> <!-- Budget-related icon -->
-              </div>
-              <div class="ps-3">
-                  <h6>₹{{ total_budget|floatformat:2 }}</h6> <!-- Display total_budget -->
-              </div>
-          </div>
+      <div class="d-flex align-items-center">
+        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+          <i class="bi bi-wallet"></i> <!-- Budget-related icon -->
+        </div>
+        <div class="ps-3">
+          <h6>₹{{ total_budget|floatformat:2 }}</h6> <!-- Display total_budget -->
+        </div>
       </div>
+    </div>
   </div>
 </div><!-- End Budget Card -->
 
-            <!-- Expense Card -->
+<!-- Expense Card -->
 <div class="col-xxl-4 col-md-6">
   <div class="card info-card sales-card">
     <div class="card-body">
@@ -90,13 +90,14 @@
           <i class="bi bi-currency-rupee"></i> <!-- Changed icon to rupees -->
         </div>
         <div class="ps-3">
-          <h6>₹{{ total_expense|floatformat:2 }}</h6> <!-- Display total expense dynamically -->
+          <h6>₹{{ total_expense|floatformat:2 }}</h6> <!-- Display total_expense -->
         </div>
       </div>
     </div>
   </div>
 </div><!-- End Expense Card -->
-            <!-- Reports -->
+
+<!-- Reports -->
             <div class="col-12">
               <div class="card">
 
@@ -131,11 +132,11 @@
                         series: [{
                           name: 'Budget',
                           //data: [31, 40, 28, 51, 42, 82, 56],
-                          data: expenses
+                          data: budget
                         }, {
                           name: 'Expense',
                           //data: [11, 32, 45, 32, 34, 52, 41]
-                          data: budget
+                          data: expenses
                         }],
                         chart: {
                           height: 350,
@@ -189,7 +190,7 @@
         <!-- Right side columns -->
         <div class="col-lg-4">
 
-                   <!-- Recent Expenses -->
+<!-- Recent Expenses -->
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">Recent Expenses</h5>
