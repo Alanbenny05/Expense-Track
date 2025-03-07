@@ -56,9 +56,9 @@ def index(request):
     budget_list = list(Budget.objects.filter(user=request.user).values_list("limit_amount"))
     expense_plain_list = [float(value[0]) for value in expense_list]  # Convert Decimal to float
     budget_plain_list = [float(value[0]) for value in budget_list]  # Convert Decimal to float
-    recent_expenses = Expense.objects.all().order_by('-date')[:5]
+    recent_expenses = Expense.objects.all().order_by('-created_at')[:5]
     monthly_expense = calculate_expense(request)
-    print(monthly_expense)
+    print(recent_expenses)
     expense_date_list = list(Expense.objects.filter(user=request.user).values_list("date"))
     budget_date_list = list(Budget.objects.filter(user=request.user).values_list("created_at"))
 

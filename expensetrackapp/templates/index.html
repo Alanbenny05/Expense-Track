@@ -206,7 +206,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <div>
                 Category: {{ expense.category.name|default:"No Category" }}<br>
-                Amount: ₹{{ expense.amount }}
+                Amount: ₹{{ expense.amount }}   {{ expense.created_at }}
               </div>
             </li>
           {% endfor %}
