@@ -37,6 +37,26 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  <style>
+    body {
+      background-image: url("{% static 'assets/img/bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* Optional: Fixes the background while scrolling */
+    }
+  
+    .card {
+      background-color: rgba(255, 255, 255, 0.9); /* Optional: Adds a semi-transparent white background to the card for better readability */
+    }
+  
+    /* Add this rule to change the Expense Tracker heading color to white */
+    .logo span {
+      color: white;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -96,12 +116,12 @@
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
                         <label class="form-check-label" for="rememberMe">Remember me</label>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
