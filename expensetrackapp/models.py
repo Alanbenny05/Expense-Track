@@ -33,6 +33,10 @@ class Budget(TimeStampedModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)  # Renamed to `category`
     limit_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'category'], name='unique_budget_user_category')
+        ]
 
     def __str__(self):
         return f"{self.user.username} - {self.category.name} - {self.limit_amount}"
