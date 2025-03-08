@@ -19,6 +19,9 @@ urlpatterns = [
     path('update_profile/', views.update_profile, name='update_profile'),  # Update Profile
     path('change-password/', views.change_password, name='change_password'),  # Change Password
     path('download-pdf-report/', download_pdf_report, name='download_pdf_report'),
+    path('account/settings/', views.account_settings, name='account_settings'),
+    path('account/deactivate/', views.deactivate_account, name='deactivate_account'),
+    path('account/delete/', views.delete_account, name='delete_account'),
 
 ]
 
