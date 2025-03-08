@@ -30,32 +30,61 @@
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Updated: Apr 20 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
   <style>
     body {
       background-image: url("{% static 'assets/img/bg.jpg' %}");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      background-attachment: fixed; /* Optional: Fixes the background while scrolling */
+      background-attachment: fixed;
     }
-  
+
     .card {
-      background-color: rgba(255, 255, 255, 0.9); /* Optional: Adds a semi-transparent white background to the card for better readability */
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-  
-    /* Add this rule to change the Expense Tracker heading color to white */
+
     .logo span {
       color: white;
     }
+
+    .invalid-feedback {
+      display: none;
+      color: #dc3545;
+    }
+
+    .is-invalid {
+      border-color: #dc3545;
+    }
+
+    .is-valid {
+      border-color: #28a745;
+    }
+
+    .password-requirements {
+      font-size: 0.875rem;
+      color: #6c757d;
+      margin-top: 0.25rem;
+    }
+
+    .password-requirements ul {
+      padding-left: 1.5rem;
+      margin-bottom: 0;
+    }
+
+    .password-requirements li {
+      list-style-type: disc;
+    }
+
+    .password-requirements li.valid {
+      color: #28a745;
+    }
+
+    .password-requirements li.invalid {
+      color: #dc3545;
+    }
   </style>
-  
 </head>
 
 <body>
@@ -84,29 +113,23 @@
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <!-- Display error messages if any
-                  {% if error %}
-                    <div class="alert alert-danger" role="alert">
-                      {{ error }}
-                    </div>
-                  {% endif %} -->
-
+                  <!-- Display error messages if any -->
                   {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-danger alert-dismissible fade show {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
+                    {% for message in messages %}
+                      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
 
                   <form class="row g-3 needs-validation" method="POST" action="{% url 'register' %}" novalidate>
-                    {% csrf_token %}  <!-- Add CSRF token for security -->
+                    {% csrf_token %}
 
                     <div class="col-12">
                       <label for="yourName" class="form-label">Your Name</label>
                       <input type="text" name="name" class="form-control" id="yourName" required>
-                      <div class="invalid-feedback">Please, enter your name!</div>
+                      <div class="invalid-feedback">Please enter your name!</div>
                     </div>
 
                     <div class="col-12">
@@ -127,22 +150,24 @@
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
+                      <div class="invalid-feedback">Please enter a valid password!</div>
+                      <div class="password-requirements">
+                        <ul>
+                          <li id="length" class="invalid">At least 8 characters</li>
+                          <li id="uppercase" class="invalid">At least one uppercase letter</li>
+                          <li id="lowercase" class="invalid">At least one lowercase letter</li>
+                          <li id="number" class="invalid">At least one number</li>
+                          <li id="special" class="invalid">At least one special character</li>
+                        </ul>
+                      </div>
                     </div>
 
                     <div class="col-12">
                       <label for="confirmPassword" class="form-label">Confirm Password</label>
                       <input type="password" name="confirm_password" class="form-control" id="confirmPassword" required>
-                      <div class="invalid-feedback">Please confirm your password!</div>
+                      <div class="invalid-feedback">Passwords do not match!</div>
                     </div>
 
-                    <!-- <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
-                        <div class="invalid-feedback">You must agree before submitting.</div>
-                      </div>
-                    </div> -->
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Create Account</button>
                     </div>
@@ -159,7 +184,6 @@
                 <!-- You can delete the links only if you purchased the pro version. -->
                 <!-- Licensing information: https://bootstrapmade.com/license/ -->
                 <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                
               </div>
 
             </div>
@@ -185,6 +209,104 @@
 
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
+
+  <!-- Custom Validation Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const emailInput = document.getElementById('yourEmail');
+      const passwordInput = document.getElementById('yourPassword');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const passwordRequirements = {
+        length: document.getElementById('length'),
+        uppercase: document.getElementById('uppercase'),
+        lowercase: document.getElementById('lowercase'),
+        number: document.getElementById('number'),
+        special: document.getElementById('special'),
+      };
+
+      // Email validation function
+      function validateEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+      }
+
+      // Password validation function
+      function validatePassword(password) {
+        const minLength = 8;
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+        // Update requirement status
+        passwordRequirements.length.classList.toggle('valid', password.length >= minLength);
+        passwordRequirements.uppercase.classList.toggle('valid', hasUppercase);
+        passwordRequirements.lowercase.classList.toggle('valid', hasLowercase);
+        passwordRequirements.number.classList.toggle('valid', hasNumber);
+        passwordRequirements.special.classList.toggle('valid', hasSpecial);
+
+        // Check if all requirements are met
+        return (
+          password.length >= minLength &&
+          hasUppercase &&
+          hasLowercase &&
+          hasNumber &&
+          hasSpecial
+        );
+      }
+
+      // Validate email on input change
+      emailInput.addEventListener('input', function () {
+        if (validateEmail(emailInput.value)) {
+          emailInput.classList.remove('is-invalid');
+          emailInput.classList.add('is-valid');
+        } else {
+          emailInput.classList.remove('is-valid');
+          emailInput.classList.add('is-invalid');
+        }
+      });
+
+      // Validate password on input change
+      passwordInput.addEventListener('input', function () {
+        const isValid = validatePassword(passwordInput.value);
+        if (isValid) {
+          passwordInput.classList.remove('is-invalid');
+          passwordInput.classList.add('is-valid');
+        } else {
+          passwordInput.classList.remove('is-valid');
+          passwordInput.classList.add('is-invalid');
+        }
+      });
+
+      // Validate password match on input change
+      confirmPasswordInput.addEventListener('input', function () {
+        if (confirmPasswordInput.value === passwordInput.value) {
+          confirmPasswordInput.classList.remove('is-invalid');
+          confirmPasswordInput.classList.add('is-valid');
+        } else {
+          confirmPasswordInput.classList.remove('is-valid');
+          confirmPasswordInput.classList.add('is-invalid');
+        }
+      });
+
+      // Form submission validation
+      const form = document.querySelector('.needs-validation');
+      form.addEventListener('submit', function (event) {
+        if (!validateEmail(emailInput.value)) {
+          emailInput.classList.add('is-invalid');
+          event.preventDefault();
+        }
+        if (!validatePassword(passwordInput.value)) {
+          passwordInput.classList.add('is-invalid');
+          event.preventDefault();
+        }
+        if (confirmPasswordInput.value !== passwordInput.value) {
+          confirmPasswordInput.classList.add('is-invalid');
+          event.preventDefault();
+        }
+      });
+    });
+  </script>
 
 </body>
 

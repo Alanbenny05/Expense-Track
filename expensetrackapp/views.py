@@ -178,14 +178,22 @@ def login_user(request):
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
-                auth_login(request, user)
-                messages.success(request, "Login successful!")
-                return redirect('index')
+                # Check if the user's account is active
+                if user.is_active:
+                    auth_login(request, user)
+                    messages.success(request, "Login successful!")
+                    return redirect('index')
+                else:
+                    # If the account is deactivated, treat it as an invalid login
+                    messages.error(request, "Invalid username or password.")
+                    return redirect('loginuser')
             else:
+                # If authentication fails, display an invalid credentials message
                 messages.error(request, "Invalid username or password.")
                 return redirect('loginuser')
         except User.DoesNotExist:
-            messages.error(request, "User does not exist.")
+            # If the user does not exist, display an invalid credentials message
+            messages.error(request, "Invalid username or password.")
             return redirect('loginuser')
 
     return render(request, 'pages-login.html')
@@ -366,6 +374,58 @@ def add_budget(request):
     # If GET request, render the add-budget form
     categories = get_user_categories()  # Fetch categories for the logged-in user
     return render(request, 'add-budget.html', {'categories': categories})
+
+@login_required
+def account_settings(request):
+    """
+    Render the account settings page.
+    """
+    return render(request, 'account-settings.html')
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Authenticate the user
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and user == request.user:
+            # Delete the user account
+            user.delete()
+            logout(request)
+            messages.success(request, 'Your account has been permanently deleted.')
+            return redirect('loginuser')
+        else:
+            messages.error(request, 'Invalid username or password. Please try again.')
+            return redirect('account_settings')
+
+    return redirect('account-settings.html')
+
+@login_required
+def deactivate_account(request):
+    """
+    Handle account deactivation.
+    """
+    if request.method == 'POST':
+        # Verify the user's password
+        password = request.POST.get('password')
+        user = request.user
+
+        if user.check_password(password):
+            # Deactivate the user
+            user.is_active = False
+            user.save()
+            logout(request)  # Log the user out
+            messages.success(request, 'Your account has been deactivated. You can reactivate it by logging in again.')
+            return redirect('loginuser')  # Redirect to the home page
+        else:
+            messages.error(request, 'Invalid password. Please try again.')
+            return redirect('account_settings')  # Redirect back to account settings
+
+    # If GET request, render the deactivation confirmation page
+    return render(request, 'account-settings.html')
 
 
 @login_required
