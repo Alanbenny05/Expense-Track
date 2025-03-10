@@ -79,7 +79,7 @@ def index(request):
     budget_list = list(Budget.objects.filter(user=request.user).values_list("limit_amount"))
     expense_plain_list = [float(value[0]) for value in expense_list]  # Convert Decimal to float
     budget_plain_list = [float(value[0]) for value in budget_list]  # Convert Decimal to float
-    recent_expenses = Expense.objects.all().order_by('-created_at')[:5]
+    recent_expenses = Expense.objects.filter(user=request.user).order_by('-created_at')[:5]
     monthly_expense = calculate_expense(request)
     monthly_budget = calculate_budget(request)
     print(recent_expenses)
@@ -197,6 +197,7 @@ def login_user(request):
             return redirect('loginuser')
 
     return render(request, 'pages-login.html')
+
 
 @login_required
 def user_profile(request):
