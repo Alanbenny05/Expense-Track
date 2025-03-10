@@ -15,6 +15,7 @@ from io import BytesIO
 from datetime import datetime, timedelta
 from django.templatetags.static import static
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 
 def calculate_expense(request):
@@ -368,13 +369,19 @@ def add_budget(request):
             budget.save()
             messages.success(request, "Budget added successfully!")
             return redirect('budget-management')  # Redirect to budget management page
+        except IntegrityError:
+            # Handle the case where a budget for this category already exists
+            messages.warning(request, "A budget for this category already exists. Please choose a different category.")
+            return redirect('add-budget')
         except Exception as e:
+            # Handle other exceptions
             messages.error(request, f"An error occurred: {str(e)}")
             return redirect('add-budget')
 
     # If GET request, render the add-budget form
     categories = get_user_categories()  # Fetch categories for the logged-in user
     return render(request, 'add-budget.html', {'categories': categories})
+
 
 @login_required
 def account_settings(request):

@@ -90,7 +90,12 @@
           <i class="bi bi-currency-rupee"></i> <!-- Changed icon to rupees -->
         </div>
         <div class="ps-3">
-          <h6>₹{{ monthly_expense|floatformat:2 }}</h6> <!-- Display total_expense -->
+          <!-- Conditional check for expense exceeding budget -->
+          {% if monthly_expense > monthly_budget %}
+            <h6 style="color: red;">₹{{ monthly_expense|floatformat:2 }}</h6> <!-- Red color for exceeding budget -->
+          {% else %}
+            <h6>₹{{ monthly_expense|floatformat:2 }}</h6> <!-- Default color -->
+          {% endif %}
         </div>
       </div>
     </div>
