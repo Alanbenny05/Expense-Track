@@ -1,0 +1,151 @@
+/*--------------------------------------------------------------
+# General Admin Overrides
+--------------------------------------------------------------*/
+body {
+    font-family: "Open Sans", sans-serif;
+    background: #f6f9ff;
+    color: #444444;
+}
+
+#header {
+    background: #fff;
+    color: #012970;
+    box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+    height: 60px;
+    padding: 0 20px;
+}
+
+#branding h1 {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #012970;
+}
+
+#branding h1 a {
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#branding h1 a:hover {
+    text-decoration: none;
+    color: #4154f1;
+}
+
+/*--------------------------------------------------------------
+# Sidebar
+--------------------------------------------------------------*/
+#content-main {
+    margin-left: 300px;
+    transition: all 0.3s;
+}
+
+#content {
+    padding: 20px 30px;
+    margin-top: 60px;
+}
+
+/*--------------------------------------------------------------
+# Navigation
+--------------------------------------------------------------*/
+.module caption, .inline-group h2 {
+    background: #4154f1;
+    color: white;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    padding: 10px 15px;
+}
+
+/*--------------------------------------------------------------
+# Tables
+--------------------------------------------------------------*/
+#changelist table thead th {
+    background: #f6f6fe;
+    color: #012970;
+    font-weight: 600;
+}
+
+#changelist table tbody tr:hover {
+    background: #f6f9ff;
+}
+
+/*--------------------------------------------------------------
+# Forms
+--------------------------------------------------------------*/
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+input[type="url"], 
+input[type="number"], 
+input[type="tel"], 
+textarea, 
+select {
+    border: 1px solid #ebeef4;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+input[type="text"]:focus, 
+input[type="password"]:focus, 
+input[type="email"]:focus, 
+input[type="url"]:focus, 
+input[type="number"]:focus, 
+input[type="tel"]:focus, 
+textarea:focus, 
+select:focus {
+    border-color: #4154f1;
+    box-shadow: 0 0 10px rgba(65, 84, 241, 0.1);
+}
+
+/*--------------------------------------------------------------
+# Buttons
+--------------------------------------------------------------*/
+.button, input[type="submit"], input[type="button"], .submit-row input, a.button {
+    background: #4154f1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.button:hover, input[type="submit"]:hover, input[type="button"]:hover, .submit-row input:hover, a.button:hover {
+    background: #5969f3;
+}
+
+/*--------------------------------------------------------------
+# Dashboard Cards
+--------------------------------------------------------------*/
+.dashboard #content {
+    width: auto;
+}
+
+.dashboard .module {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+    margin-bottom: 30px;
+}
+
+.dashboard .module table {
+    width: 100%;
+}
+
+.dashboard .module table td, .dashboard .module table th {
+    padding: 12px 15px;
+}
+
+/*--------------------------------------------------------------
+# Responsive Adjustments
+--------------------------------------------------------------*/
+@media (max-width: 1024px) {
+    #content-main {
+        margin-left: 0;
+    }
+}
